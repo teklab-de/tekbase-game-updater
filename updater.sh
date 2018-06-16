@@ -32,7 +32,7 @@ fi
 if [ "$VAR_A" == "www" ]; then
 	if [ "$VAR_B" == "minecraft" ]; then
 		VERSIONS=$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json)
-        GET_VER=$(getJSONVal "$(getJSONData "$VERSIONS" latest)" release)
+		GET_VER=$(getJSONVal "$(getJSONData "$VERSIONS" latest)" release)
 		GET_DATA=$(echo $VERSIONS | egrep -o "\"id\":\"${GET_VER}\"[^}]*")
 		GET_URL=$(getJSONVal "$GET_DATA" url)
 		GET_JSON=$(curl -s $GET_URL)
