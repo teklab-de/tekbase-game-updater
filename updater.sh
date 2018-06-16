@@ -16,7 +16,7 @@ function getJSONVal {
 if [ "$VAR_A" == "file" ]; then
 	wget --no-check-certificate $VAR_B/$VAR_C.tar
 	tar -xf $VAR_C.tar	
-    rm -rf $VAR_C.tar
+	rm -rf $VAR_C.tar
 fi
 
 if [ "$VAR_A" == "steam" ]; then
@@ -45,7 +45,7 @@ if [ "$VAR_A" == "www" ]; then
 		echo "$GET_JSON"
 		echo "$SERVER_FILE"
 		# DEBUG CHECK END
-    fi
+	fi
 fi
 
 rm -rf updater.sh
