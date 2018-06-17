@@ -17,7 +17,6 @@ if [ ! -d "$LOGDIR" ]; then
 fi
 
 if [ ! -f "$VERSION" ]; then
-	touch $VERSION
 	echo "0" > version.tek   
 	echo "$DATE - File version.tek has just been created!" >> $LOGDIR/$LOGFILE-update.log
 	echo "$DATE - File version.tek has just been created!"
