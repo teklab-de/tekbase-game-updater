@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 VAR_A=$1
 VAR_B=$2
@@ -11,7 +11,7 @@ VERSION="mc_version.txt"
 VERSIONTEXT="1.1.0"
 
 if [[ -a "$LOGDIR" ]]; then
-     echo "Info: Ordner Logs für Logs vorhanden !"
+     echo "Info: Ordner Logs für Logs vorhanden!"
           
 else
    mkdir $LOGDIR
@@ -21,7 +21,7 @@ else
 fi
 
 if [[ -f "$VERSION" ]]; then
-        echo "Info: Die Datei mc_version.txt ist vorhanden !"
+        echo "Info: Die Datei mc_version.txt ist vorhanden!"
 else
         echo -n ${DATE} - Info: Die Datei mc_version.txt wurde soeben erstellt ! >> $LOGDIR/$DATE-mc_up.log
         echo ${DATE} - Info: Die Datei mc_version.txt wurde soeben erstellt !
@@ -56,7 +56,8 @@ fi
 
 if [ "$VAR_A" == "www" ]; then
 	if [ "$VAR_B" == "minecraft" ]; then
-	     MCJSON=$(curl -s $__MC_JSON_URL)
+    	 MCJSON_URL='https://launchermeta.mojang.com/mc/game/version_manifest.json'
+         MCJSON=$(curl -s $MCJSON_URL)
          LATEST_VER=$(getJSONVal "$(getJSONData "$MCJSON" latest)" release)
          LATEST_URL_DATA=$(echo "$MCJSON" | egrep -o "\"id\":\"${LATEST_VER}\"[^}]*")
          LATEST_VER_URL=$(getJSONVal "$LATEST_URL_DATA" url)
@@ -73,7 +74,7 @@ if [ ${LATEST_VER} != $(cat mc_version.txt) ]; then
         echo -n ${DATE} - Die neueste Minecraft Version wurde gedownloaded >> $LOGDIR/$DATE-mc_up.log
         echo ${DATE} - Die neueste Minecraft Version wurde gedownloaded
 else
-	echo "Info: Latest Version kein Update nötig !" 
+	echo "$DATE - Info: Latest Version kein Update nötig!" 
 	exit
 fi
 
@@ -83,13 +84,13 @@ if [ $(sha1sum "${LOCAL_FILE}" | awk '{print $1}') != "${SERVER_FILE_SHA1}" ]; t
 	rm "${LOCAL_FILE}"
 else
 	echo -n '${DATE} - INFO: SHA1 matches!' >> $LOGDIR/$DATE-mc_up.log
-        echo ${DATE} - INFO: SHA1 matches!
+        echo "$DATE - INFO: SHA1 matches!"
 	
 fi
 
 if [[ -a "${LOCAL_FILE}" ]]; then
-	echo "${LOCAL_FILE} gedownloaded umbennen in minecraft_server.jar"
-	mv "${LOCAL_FILE}" "minecraft_server.jar"
+        mv "${LOCAL_FILE}" "minecraft_server.jar"
+	echo $DATE - Info: $LOCAL_FILE gedownloaded sowie  umbenannt in minecraft_server.jar!
 	echo -n ${DATE} - Datei $SERVER_JAR_NAME in minecraft_server.jar umbenannt! >> $LOGDIR/$DATE-mc_up.log
 	echo ${LATEST_VER} > mc_version.txt
 	echo -n ${DATE} Neue Version in mc_version.txt gespeichert! >> $LOGDIR/$DATE-mc_up.log
@@ -97,12 +98,11 @@ if [[ -a "${LOCAL_FILE}" ]]; then
 fi
 
 		# DEBUG CHECK START
-		echo "$VERSIONS"
-		echo "$GET_VER"
-		echo "$GET_DATA"
-		echo "$GET_URL"
-		echo "$GET_JSON"
-		echo "$SERVER_FILE"
+		echo "$DATE - Debug: Neue Version lautet: $LATEST_VER!"
+		echo "$DATE - Debug: Versions-URL lautet:  $LATEST_VER_URL!"
+		echo "$DATE - Debug: Last_URL_DATA: $LATEST_URL_DATA!"
+		echo "$DATE - Debug: Last Serverfiles latest Version URL: $SERVER_URL!"
+		echo "$DATE - Debug: Endgültiger wahrer Dateiname:  $SERVER_JAR_NAME!"
 		# DEBUG CHECK END
 	fi
 fi
