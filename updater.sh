@@ -5,30 +5,23 @@ VAR_B=$2
 VAR_C=$3
 VAR_D=$4
 
-DATE=$(date +"%d.%m.%Y_%H:%M:%S")
-LOGDIR="Logs"
-VERSION="mc_version.txt"
-VERSIONTEXT="1.1.0"
+DATE=$(date +"%Y.%m.%d %H:%M:%S")
+LOGFILE=$(date +"%Y-%m-%d")
+LOGDIR="logs"
 
-if [[ -a "$LOGDIR" ]]; then
-     echo "Info: Ordner Logs für Logs vorhanden!"
-          
-else
-   mkdir $LOGDIR
-   chmod 755 $LOGDIR    
-   echo -n $DATE - Info: Ordner Logs nicht vorhanden wurde soeben erstellt ! >> $LOGDIR/$DATE-mc_up.log
-   echo $DATE - Info: Ordner Logs nicht vorhanden wurde soeben erstellt !
+if [ ! -d "$LOGDIR" ]; then
+	mkdir $LOGDIR
+	chmod 755 $LOGDIR    
+	echo "$DATE - The logs folder has just been created!" >> $LOGDIR/$LOGFILE-update.log
+	echo "$DATE - The logs folder has just been created!"
 fi
 
-if [[ -f "$VERSION" ]]; then
-        echo "Info: Die Datei mc_version.txt ist vorhanden!"
-else
-        echo -n ${DATE} - Info: Die Datei mc_version.txt wurde soeben erstellt ! >> $LOGDIR/$DATE-mc_up.log
-        echo ${DATE} - Info: Die Datei mc_version.txt wurde soeben erstellt !
-        touch $VERSION
-        echo $VERSIONTEXT > $VERSION   
+if [ ! -f "$VERSION" ]; then
+	touch $VERSION
+	echo "0" > version.tek   
+	echo "$DATE - File version.tek has just been created!" >> $LOGDIR/$LOGFILE-update.log
+	echo "$DATE - File version.tek has just been created!"
 fi
-
 
 function getJSONData {
 	echo $1 | egrep -o "\"$2\": ?[^\}]*(\}|\")" | sed "s/\"$2\"://"
@@ -56,53 +49,40 @@ fi
 
 if [ "$VAR_A" == "www" ]; then
 	if [ "$VAR_B" == "minecraft" ]; then
-    	 MCJSON_URL='https://launchermeta.mojang.com/mc/game/version_manifest.json'
-         MCJSON=$(curl -s $MCJSON_URL)
-         LATEST_VER=$(getJSONVal "$(getJSONData "$MCJSON" latest)" release)
-         LATEST_URL_DATA=$(echo "$MCJSON" | egrep -o "\"id\":\"${LATEST_VER}\"[^}]*")
-         LATEST_VER_URL=$(getJSONVal "$LATEST_URL_DATA" url)
-         MCURLJSON=$(curl -s "$LATEST_VER_URL")
-         SERVER_JAR_NAME=minecraft_server_${LATEST_VER}.jar
-         SERVER_URL=$(getJSONVal "$(getJSONData "$MCURLJSON" server)" url)
-         SERVER_FILE_SHA1=$(getJSONVal "$(getJSONData "$MCURLJSON" server)" sha1)
-         LOCAL_FILE=$([[ -n $1 ]] && echo "$1" || echo "$SERVER_JAR_NAME")
-         SERVER_WGET=$(wget -q -O ${LOCAL_FILE} ${SERVER_URL})
+		VERSIONS=$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json)
+		GET_VER=$(getJSONVal "$(getJSONData "$VERSIONS" latest)" release)
+		GET_DATA=$(echo $VERSIONS | egrep -o "\"id\":\"${GET_VER}\"[^}]*")
+		GET_URL=$(getJSONVal "$GET_DATA" url)
+		GET_JSON=$(curl -s $GET_URL)
+		SERVER_FILE=minecraft_server_${GET_VER}.jar
+		SERVER_FILE_SHA1=$(getJSONVal "$(getJSONData "$GET_JSON" server)" sha1)
+		SERVER_URL=$(getJSONVal "$(getJSONData "$GET_JSON" server)" url)        
+		LOCAL_FILE=$([[ -n $1 ]] && echo "$1" || echo "$SERVER_FILE")
 
-if [ ${LATEST_VER} != $(cat mc_version.txt) ]; then
-	echo $NEWVERSION > version.txt
-	$SERVER_WGET
-        echo -n ${DATE} - Die neueste Minecraft Version wurde gedownloaded >> $LOGDIR/$DATE-mc_up.log
-        echo ${DATE} - Die neueste Minecraft Version wurde gedownloaded
-else
-	echo "$DATE - Info: Latest Version kein Update nötig!" 
-	exit
-fi
+		if [ $LATEST_VER != $(cat version.tek) ]; then
+			echo $GET_VER > version.tek
+			wget -q -O "${LOCAL_FILE}" ${SERVER_URL}
+			echo "$DATE - The latest version has been downloaded!" >> $LOGDIR/$LOGFILE-update.log
+			echo "$DATE - The latest version has been downloaded!"
+		fi
 
+		if [ $(sha1sum "${LOCAL_FILE}" | awk '{print $1}') != "${SERVER_FILE_SHA1}" ]; then
+			echo "Checksum of downloaded file does not match!" 
+			rm "$LOCAL_FILE"
+		fi
 
-if [ $(sha1sum "${LOCAL_FILE}" | awk '{print $1}') != "${SERVER_FILE_SHA1}" ]; then
-	echo "SHA1 of downloaded file does not match!" 
-	rm "${LOCAL_FILE}"
-else
-	echo -n '${DATE} - INFO: SHA1 matches!' >> $LOGDIR/$DATE-mc_up.log
-        echo "$DATE - INFO: SHA1 matches!"
-	
-fi
-
-if [[ -a "${LOCAL_FILE}" ]]; then
-        mv "${LOCAL_FILE}" "minecraft_server.jar"
-	echo $DATE - Info: $LOCAL_FILE gedownloaded sowie  umbenannt in minecraft_server.jar!
-	echo -n ${DATE} - Datei $SERVER_JAR_NAME in minecraft_server.jar umbenannt! >> $LOGDIR/$DATE-mc_up.log
-	echo ${LATEST_VER} > mc_version.txt
-	echo -n ${DATE} Neue Version in mc_version.txt gespeichert! >> $LOGDIR/$DATE-mc_up.log
-
-fi
+		if [ -f $LOCAL_FILE ]; then
+			mv "$LOCAL_FILE" minecraft_server.jar
+			echo "$DATE - The update was successful!" >> $LOGDIR/$LOGFILE-update.log
+			echo "$DATE - The update was successful!"
+		fi
 
 		# DEBUG CHECK START
-		echo "$DATE - Debug: Neue Version lautet: $LATEST_VER!"
-		echo "$DATE - Debug: Versions-URL lautet:  $LATEST_VER_URL!"
-		echo "$DATE - Debug: Last_URL_DATA: $LATEST_URL_DATA!"
-		echo "$DATE - Debug: Last Serverfiles latest Version URL: $SERVER_URL!"
-		echo "$DATE - Debug: Endgültiger wahrer Dateiname:  $SERVER_JAR_NAME!"
+        echo "Debug:"
+		echo "$DATE - Latest version: $GET_VER"
+		echo "$DATE - Data request: $GET_DATA"
+		echo "$DATE - Version URL: $GET_URL"
+		echo "$DATE - Download URL: $SERVER_URL"
 		# DEBUG CHECK END
 	fi
 fi
