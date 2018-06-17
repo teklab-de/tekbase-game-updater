@@ -59,14 +59,14 @@ if [ "$VAR_A" == "www" ]; then
 		SERVER_URL=$(getJSONVal "$(getJSONData "$GET_JSON" server)" url)        
 		LOCAL_FILE=$([[ -n $1 ]] && echo "$1" || echo "$SERVER_FILE")
 
-		if [ $LATEST_VER != $(cat version.tek) ]; then
+		if [ "$LATEST_VER" != "$(cat version.tek)" ]; then
 			echo $GET_VER > version.tek
 			wget -q -O "${LOCAL_FILE}" ${SERVER_URL}
 			echo "$DATE - The latest version has been downloaded!" >> $LOGDIR/$LOGFILE-update.log
 			echo "$DATE - The latest version has been downloaded!"
 		fi
 
-		if [ $(sha1sum "${LOCAL_FILE}" | awk '{print $1}') != "${SERVER_FILE_SHA1}" ]; then
+		if [ "$(sha1sum "${LOCAL_FILE}" | awk '{print $1}')" != "${SERVER_FILE_SHA1}" ]; then
 			echo "Checksum of downloaded file does not match!" 
 			rm "$LOCAL_FILE"
 		fi
