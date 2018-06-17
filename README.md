@@ -10,4 +10,4 @@ Copy the updater.sh on your Imageserver and create an update entry in your game 
 ## License
 Copyright (c) TekLab.de. Code released under the [OPL v1.0 License](http://https://gitgem.com/TekLab/tekbase-game-updater/src/branch/master/LICENSE).
 
-Additionally for the Minecraft [sonix](https://gitgem.com/sonix)
+Additionally for Minecraft [sonix](https://gitgem.com/sonix)
