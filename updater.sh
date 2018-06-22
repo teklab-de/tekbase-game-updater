@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# TekBase - Server Control Panel
+# Copyright 2005-2018 TekLab
+# Christian Frankenstein
+# Website: https://teklab.de
+# Email: service@teklab.de
+
 VAR_A=$1
 VAR_B=$2
 VAR_C=$3
