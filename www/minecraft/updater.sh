@@ -1,5 +1,7 @@
 #!/bin/sh
 
+VAR_A=$1
+
 DATE=$(date +"%Y.%m.%d %H:%M:%S")
 LOGFILE=$(date +"%Y-%m-%d")
 LOGDIR="../../logs"
@@ -27,7 +29,7 @@ if [ "$(sha1sum "${LOCAL_FILE}" | awk '{print $1}')" != "${SERVER_FILE_SHA1}" ];
 fi
 
 if [ -f $LOCAL_FILE ]; then
-	mv "$LOCAL_FILE" minecraft_server.jar
+	mv "$LOCAL_FILE" $VAR_A/minecraft_server.jar
 	echo "$DATE - The update was successful!" >> $LOGDIR/$LOGFILE-update.log
 	echo "$DATE - The update was successful!"
 fi
