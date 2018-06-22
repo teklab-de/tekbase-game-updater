@@ -19,9 +19,9 @@ wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./u
 ```
 
 ## Update methodes
-imageserver = Your ftp oder http download server
-gamefile = TekBASE admin panel -> gamelist -> edit game -> image file field
-gamefolder = Folder name in www folder
+* imageserver = Your ftp oder http download server
+* gamefile = TekBASE admin panel -> gamelist -> edit game -> image file field
+* gamefolder = Folder name in www folder
 
 ### File - download and extract from your server:
 ```
