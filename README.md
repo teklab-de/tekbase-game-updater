@@ -22,6 +22,7 @@ wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./u
 * imageserver = Your ftp oder http download server
 * gamefile = TekBASE admin panel -> gamelist -> edit game -> image file field
 * gamefolder = Folder name in www folder
+* steamlogin = Your steam login or anonymous (not allowed for every game)
 
 ### File - download and extract from your server:
 ```
@@ -38,7 +39,7 @@ wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./u
 
 ### Steam - update via steamcmd:
 ```
-wget imageserver/updater.tar;tar -xf updater.tar;./updater.sh steam "steamlogins" "gamefile"
+wget imageserver/updater.tar;tar -xf updater.tar;./updater.sh steam "steamlogin" "gamefile"
 ```
 in example:
 ```
