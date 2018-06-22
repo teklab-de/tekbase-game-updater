@@ -5,7 +5,50 @@
 Universal update script for steam games, minecraft and more. More informations about TekBASE at https://teklab.de
 
 ## Installation
-Copy the updater.sh on your Imageserver and create an update entry in your game list. Under "Releases" you will find the download for your TekBASE version.
+```
+cd /home
+git clone https://gitgem.com/TekLab/tekbase-game-updater.git
+cd tekbase-game-updater
+chmod -R 0777 *.sh
+tar -cf updater.tar *
+```
+
+Copy the updater.tar on your Imageserver (download server) and create an update entry in your game list. Example for minecraft: 
+```
+wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh www minecraft
+```
+
+## Update methodes
+imageserver = Your ftp oder http download server
+gamefile = TekBASE admin panel -> gamelist -> edit game -> image file field
+gamefolder = Folder name in www folder
+
+### File - download and extract from your server:
+```
+wget imageserver/updater.tar;tar -xf updater.tar;./updater.sh file "imageserver" "gamefile"
+```
+in example:
+```
+wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh file "imageserver" "gamefile"
+```
+
+### Steam - update via steamcmd:
+```
+wget imageserver/updater.tar;tar -xf updater.tar;./updater.sh steam "steamlogins" "gamefile"
+```
+in example:
+```
+wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh steam "anonymous" "232330" ""
+```
+
+### WWW - download directly from the publisher website:
+```
+wget imageserver/updater.tar;tar -xf updater.tar;./updater.sh www "gamefolder"
+```
+in example:
+```
+wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh www "minecraft"
+```
 
 ## License
 Copyright (c) TekLab.de. Code released under the [OPL v1.0 License](http://https://gitgem.com/TekLab/tekbase-game-updater/src/branch/master/LICENSE).
