@@ -4,7 +4,6 @@ VAR_A=$1
 
 DATE=$(date +"%Y.%m.%d %H:%M:%S")
 LOGFILE=$(date +"%Y-%m-%d")
-LOGDIR="../../logs"
 
 VERSIONS=$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json)
 GET_VER=$(getJSONVal "$(getJSONData "$VERSIONS" latest)" release)
@@ -16,10 +15,10 @@ SERVER_FILE_SHA1=$(getJSONVal "$(getJSONData "$GET_JSON" server)" sha1)
 SERVER_URL=$(getJSONVal "$(getJSONData "$GET_JSON" server)" url)        
 LOCAL_FILE=$([[ -n $1 ]] && echo "$1" || echo "$SERVER_FILE")
 
-if [ "$LATEST_VER" != "$(cat version.tek)" ]; then
-	echo $GET_VER > version.tek
+if [ "$LATEST_VER" != "$(cat $VAR_A/version.tek)" ]; then
+	echo $GET_VER > $VAR_A/version.tek
 	wget -q -O "${LOCAL_FILE}" ${SERVER_URL}
-	echo "$DATE - The latest version has been downloaded!" >> $LOGDIR/$LOGFILE-update.log
+	echo "$DATE - The latest version has been downloaded!" >> $VAR_A/logs/$LOGFILE-update.log
 	echo "$DATE - The latest version has been downloaded!"
 fi
 
@@ -30,7 +29,7 @@ fi
 
 if [ -f $LOCAL_FILE ]; then
 	mv "$LOCAL_FILE" $VAR_A/minecraft_server.jar
-	echo "$DATE - The update was successful!" >> $LOGDIR/$LOGFILE-update.log
+	echo "$DATE - The update was successful!" >> $VAR_A/logs/$LOGFILE-update.log
 	echo "$DATE - The update was successful!"
 fi
 
