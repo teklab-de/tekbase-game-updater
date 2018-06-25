@@ -54,8 +54,8 @@ if [ "$VAR_A" == "steam" ]; then
 fi
 
 if [ "$VAR_A" == "www" ]; then
-	if [ -d "www/$VAR_B" ]; then
-		$DATADIR/www/$VAR_B/updater.sh $DATADIR
+	if [ -d "games/$VAR_B" ]; then
+		$DATADIR/games/$VAR_B/updater.sh $DATADIR
 	fi
 fi
 
