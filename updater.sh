@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # TekBase - Server Control Panel
 # Copyright 2005-2018 TekLab
