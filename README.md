@@ -2,7 +2,7 @@
 
 ![TekBASE 8.X](https://img.shields.io/badge/TekBASE-8.X-green.svg) ![License OPL v1.0](https://img.shields.io/badge/License-OPL_v1.0-blue.svg)
 
-Universal update script for steam games, minecraft and more. More informations about TekBASE at https://teklab.de
+Universal update script for steam games, minecraft and more. More informations about TekBASE at [TekLab.de](https://teklab.de)
 
 ## Installation
 ```
