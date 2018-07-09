@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # TekBase - Server Control Panel
 # Copyright 2005-2018 TekLab
@@ -29,11 +29,11 @@ if [ ! -f "$VERSION" ]; then
 	echo "$DATE - File version.tek has just been created!"
 fi
 
-getJSONData() {
+function getJSONData {
 	echo $1 | egrep -o "\"$2\": ?[^\}]*(\}|\")" | sed "s/\"$2\"://"
 }
 
-getJSONVal() {
+function getJSONVal {
 	echo $1 | egrep -o "\"$2\": ?\"[^\"]*" | sed "s/\"$2\"://" | tr -d '{}" '
 }
 
