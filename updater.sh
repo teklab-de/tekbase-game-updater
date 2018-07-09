@@ -29,11 +29,11 @@ if [ ! -f "$VERSION" ]; then
 	echo "$DATE - File version.tek has just been created!"
 fi
 
-function getJSONData {
+getJSONData() {
 	echo $1 | egrep -o "\"$2\": ?[^\}]*(\}|\")" | sed "s/\"$2\"://"
 }
 
-function getJSONVal {
+getJSONVal() {
 	echo $1 | egrep -o "\"$2\": ?\"[^\"]*" | sed "s/\"$2\"://" | tr -d '{}" '
 }
 
