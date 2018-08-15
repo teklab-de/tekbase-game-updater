@@ -19,7 +19,7 @@ wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./u
 ```
 
 ## Update methodes
-* imageserver = Your ftp oder http download server
+* imageserver = Your ftp or http download server
 * gamefile = TekBASE admin panel -> gamelist -> edit game -> image file field
 * gamefolder = Folder name in www folder
 * steamlogin = Your steam login or anonymous (not allowed for every game)
