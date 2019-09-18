@@ -1,13 +1,12 @@
 # TekBASE - Game Updater
-
-![TekBASE 8.X](https://img.shields.io/badge/TekBASE-8.X-green.svg) ![License OPL v1.0](https://img.shields.io/badge/License-OPL_v1.0-blue.svg)
+![TekBASE 8.X](https://img.shields.io/badge/TekBASE-8.X-green.svg) ![License GNU AGPLv3](https://img.shields.io/badge/License-GNU_AGPLv3-blue.svg) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3f6e095c84d94be0ae55bc4e1daa61bb)](https://www.codacy.com/manual/ch.frankenstein/tekbase-game-updater?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=teklab-de/tekbase-game-updater&amp;utm_campaign=Badge_Grade)
 
 Universal update script for steam games, minecraft and more. TekBASE is a server management software for clans, communities and service providers with an online shop, billing system, and reminder system. More information at [TekLab.de](https://teklab.de)
 
 ## Installation
 ```
 cd /home
-git clone https://gitgem.com/TekLab/tekbase-game-updater.git
+git clone https://github.com/teklab-de/tekbase-game-updater.git
 cd tekbase-game-updater
 chmod -R 0777 *.sh
 tar -cf updater.tar *
@@ -22,7 +21,8 @@ wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./u
 * imageserver = Your ftp or http download server
 * gamefile = TekBASE admin panel -> gamelist -> edit game -> image file field
 * gamefolder = Folder name in www folder
-* steamlogin = Your steam login or anonymous (not allowed for every game)
+* steamuser = Your steam login or anonymous will be selected (not allowed for every game)
+* steampw = Your steam password or anonymous will be selected (not allowed for every game)
 * steamid = Steam id for the dedicated server files
 
 ### File - download and extract from your server:
@@ -40,11 +40,15 @@ wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./u
 
 ### Steam - update via steamcmd:
 ```
-wget imageserver/updater.tar;tar -xf updater.tar;./updater.sh steam "steamlogin" "steamid"
+wget imageserver/updater.tar;tar -xf updater.tar;./updater.sh steam "steamid" "gamefolder" "steamuser" "steampw"
 ```
 in example:
 ```
-wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh steam "anonymous" "232330" ""
+wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh steam "232330" "" "STEAMUSER" "STEAMPW"
+```
+or:
+```
+wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh steam "232330" "" "" ""
 ```
 
 ### WWW - download directly from the publisher website:
@@ -57,6 +61,4 @@ wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./u
 ```
 
 ## License
-Copyright (c) TekLab.de. Code released under the [OPL v1.0 License](http://https://gitgem.com/TekLab/tekbase-game-updater/src/branch/master/LICENSE).
-
-Additionally for Minecraft [sonix](https://gitgem.com/sonix)
+Copyright (c) TekLab.de. Code released under the [GNU AGPLv3 License](https://github.com/teklab-de/tekbase-game-updater/blob/master/LICENSE). The use by other commercial control panel providers is explicitly prohibited.
