@@ -31,11 +31,11 @@ wget imageserver/updater.tar;tar -xf updater.tar;./updater.sh file "imageserver"
 ```
 in example:
 ```
-wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh file "imageserver" "css123"
+wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh file "http://xxxxx.xxx" "css123"
 ```
 or:
 ```
-wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh file "imageserver/css/update" "version_123"
+wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh file "http://xxxxx.xxx/css/update" "version_123"
 ```
 
 ### Steam - update via steamcmd:
