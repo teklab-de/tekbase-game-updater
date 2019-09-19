@@ -18,38 +18,46 @@ DATADIR=$(pwd)
 
 if [ ! -d $LOGDIR ]; then
     mkdir $LOGDIR
-    chmod 755 $LOGDIR    
+    chmod 755 $LOGDIR  
     echo "$(date) - The logs folder has just been created!" >> $LOGDIR/$LOGFILE-update.log
-    echo "$(date) - The logs folder has just been created!"
 fi
 
 if [ ! -f version.tek ]; then
     echo "0" > version.tek   
     echo "$(date) - File version.tek has just been created!" >> $LOGDIR/$LOGFILE-update.log
-    echo "$(date) - File version.tek has just been created!"
 fi
 
 
 if [ "$VAR_A" == "file" ]; then
     wget $VAR_B/$VAR_C.tar
-    tar -xf $VAR_C.tar	
-    rm -rf $VAR_C.tar
+    if [ -f $VAR_C.tar ]; then
+        tar -xf $VAR_C.tar
+        rm -r $VAR_C.tar
+	echo "$(date) - OK: The file has been downloaded and extracted!" >> $LOGDIR/$LOGFILE-update.log
+    else
+	echo "$(date) - ERROR: The file could not be downloaded!" >> $LOGDIR/$LOGFILE-update.log    	
+    fi
 fi
 
 if [ "$VAR_A" == "steam" ]; then
     wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
-    tar -xzf steamcmd_linux.tar.gz
-    chmod 777 steamcmd.sh
-    chmod -R 777 linux32
-    if [ "$VAR_D" != "" ] && [ "$VAR_E" != "" ]; then
-	./steamcmd.sh +login "$VAR_D" "$VAR_E" +force_install_dir ./$VAR_C +app_update $VAR_B validate +exit
+    if [ -f $VAR_C.tar ]; then
+        tar -xzf steamcmd_linux.tar.gz
+        chmod 777 steamcmd.sh
+        chmod -R 777 linux32
+        if [ "$VAR_D" != "" ] && [ "$VAR_E" != "" ]; then
+	    ./steamcmd.sh +login "$VAR_D" "$VAR_E" +force_install_dir ./$VAR_C +app_update $VAR_B validate +exit
+        else
+            ./steamcmd.sh +login anonymous +force_install_dir ./$VAR_C +app_update $VAR_B validate +exit
+        fi
+        rm steamcmd_linux.tar.gz
+        rm steamcmd.sh
+        rm steam.sh
+        rm -r linux32
+	echo "$(date) - OK: The file has been downloaded and extracted!" >> $LOGDIR/$LOGFILE-update.log
     else
-        ./steamcmd.sh +login anonymous +force_install_dir ./$VAR_C +app_update $VAR_B validate +exit
+	echo "$(date) - ERROR: The file could not be downloaded!" >> $LOGDIR/$LOGFILE-update.log
     fi
-    rm steamcmd_linux.tar.gz
-    rm steamcmd.sh
-    rm steam.sh
-    rm -r linux32
 fi
 
 if [ "$VAR_A" == "www" ]; then
@@ -58,6 +66,7 @@ if [ "$VAR_A" == "www" ]; then
 	cd $DATADIR
     fi
 fi
+
 rm -r update_www
 rm updater.sh
     
