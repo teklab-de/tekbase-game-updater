@@ -20,32 +20,32 @@ function getJSONVal {
 
 
 VERSIONS=$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json)
-GET_VER=$(getJSONVal "$(getJSONData "$VERSIONS" "latest")" "release")
-GET_DATA=$(echo "$VERSIONS" | egrep -o "\"id\":\"$GET_VER\"[^}]*")
-GET_URL=$(getJSONVal "$GET_DATA" "url")
-GET_JSON=$(curl -s $GET_URL)
-SERVER_FILE="minecraft_server_${GET_VER}.jar"
-SERVER_FILE_SHA1=$(getJSONVal "$(getJSONData "$GET_JSON" "server")" "sha1")
-SERVER_URL=$(getJSONVal "$(getJSONData "$GET_JSON" "server")" "url")        
-LOCAL_FILE=$([[ -n $1 ]] && echo "$1" || echo "$SERVER_FILE")
+GETVER=$(getJSONVal "$(getJSONData "$VERSIONS" "latest")" "release")
+GETDATA=$(echo "$VERSIONS" | egrep -o "\"id\":\"$GETVER\"[^}]*")
+GETURL=$(getJSONVal "$GETDATA" "url")
+GETJSON=$(curl -s $GETURL)
+SERVERFILE="minecraft_server_${GETVER}.jar"
+SERVERFILESHA1=$(getJSONVal "$(getJSONData "$GETJSON" "server")" "sha1")
+SERVERURL=$(getJSONVal "$(getJSONData "$GETJSON" "server")" "url")        
+LOCALFILE=$([[ -n $1 ]] && echo "$1" || echo "$SERVERFILE")
 
-if [ "$LATEST_VER" != "$(cat $VAR_A/version.tek)" ]; then
-	  echo $GET_VER > $VAR_A/version.tek
-	  wget -q -O $LOCAL_FILE $SERVER_URL
-	  echo "$(date) - The latest version has been downloaded!" >> $VAR_A/logs/$LOGDATE-update.log
+if [ "$LATESTVER" != "$(cat $VAR_A/version.tek)" ]; then
+    echo $GETVER > $VAR_A/version.tek
+    wget -q -O $LOCALFILE $SERVERURL
+    echo "$(date) - The latest version has been downloaded!" >> $VAR_A/logs/$LOGDATE-update.log
 fi
 
-if [ "$(sha1sum "$LOCAL_FILE" | awk '{print $1}')" != "$SERVER_FILE_SHA1" ]; then
-	echo "$(date) - Checksum of downloaded file does not match!" >> $VAR_A/logs/$LOGDATE-update.log
-	rm "$LOCAL_FILE"
+if [ "$(sha1sum $LOCALFILE | awk '{print $1}')" != "$SERVERFILESHA1" ]; then
+    echo "$(date) - Checksum of downloaded file does not match!" >> $VAR_A/logs/$LOGDATE-update.log
+    rm "$LOCALFILE"
 fi
 
 if [ -f $LOCAL_FILE ]; then
-  mv $VAR_A/minecraft_server.jar $VAR_A/$LOGDATE_minecraft_server.jar
-	mv "$LOCAL_FILE" $VAR_A/minecraft_server.jar
-	echo "$(date) - The update was successful!" >> $VAR_A/logs/$LOGDATE-update.log
+    mv $VAR_A/minecraft_server.jar $VAR_A/${LOGDATE}_minecraft_server.jar
+    mv "$LOCALFILE" $VAR_A/minecraft_server.jar
+    echo "$(date) - The update was successful!" >> $VAR_A/logs/$LOGDATE-update.log
 fi
 
-echo "$(date) - Latest version: $GET_VER, Data request: $GET_DATA, Version URL: $GET_URL, Download URL: $SERVER_URL" >> $VAR_A/logs/$LOGDATE-update.log
+echo "$(date) - Latest version: $GETVER, Data request: $GETDATA, Version URL: $GETURL, Download URL: $SERVERURL" >> $VAR_A/logs/$LOGDATE-update.log
 
 exit 0
