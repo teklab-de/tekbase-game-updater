@@ -29,14 +29,6 @@ if [ ! -f version.tek ]; then
     echo "$(date) - File version.tek has just been created!"
 fi
 
-function getJSONData {
-	echo $1 | egrep -o "\"$2\": ?[^\}]*(\}|\")" | sed "s/\"$2\"://"
-}
-
-function getJSONVal {
-	echo $1 | egrep -o "\"$2\": ?\"[^\"]*" | sed "s/\"$2\"://" | tr -d '{}" '
-}
-
 
 if [ "$VAR_A" == "file" ]; then
     wget $VAR_B/$VAR_C.tar
