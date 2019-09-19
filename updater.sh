@@ -38,6 +38,8 @@ fi
 if [ "$VAR_A" == "steam" ]; then
     wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
     tar -xzf steamcmd_linux.tar.gz
+    chmod 777 steamcmd.sh
+    chmod -R 777 linux32
     if [ "$VAR_D" != "" ] && [ "$VAR_E" != "" ]; then
 	./steamcmd.sh +login "$VAR_D" "$VAR_E" +force_install_dir ./$VAR_C +app_update $VAR_B validate +exit
     else
