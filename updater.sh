@@ -19,12 +19,12 @@ DATADIR=$(pwd)
 if [ ! -d $LOGDIR ]; then
     mkdir $LOGDIR
     chmod 755 $LOGDIR  
-    echo "$(date) - The logs folder has just been created!" >> $LOGDIR/$LOGFILE-update.log
+    echo "$(date) - INFO: The logs folder has just been created!" >> $LOGDIR/$LOGFILE-update.log
 fi
 
 if [ ! -f version.tek ]; then
     echo "0" > version.tek   
-    echo "$(date) - File version.tek has just been created!" >> $LOGDIR/$LOGFILE-update.log
+    echo "$(date) - INFO: File version.tek has just been created!" >> $LOGDIR/$LOGFILE-update.log
 fi
 
 
@@ -33,7 +33,7 @@ if [ "$VAR_A" == "file" ]; then
     if [ -f $VAR_C.tar ]; then
         tar -xf $VAR_C.tar
         rm -r $VAR_C.tar
-	echo "$(date) - OK: The file has been downloaded and extracted!" >> $LOGDIR/$LOGFILE-update.log
+	echo "$(date) - INFO: The file has been downloaded and extracted!" >> $LOGDIR/$LOGFILE-update.log
     else
 	echo "$(date) - ERROR: The file could not be downloaded!" >> $LOGDIR/$LOGFILE-update.log    	
     fi
@@ -54,7 +54,7 @@ if [ "$VAR_A" == "steam" ]; then
         rm steamcmd.sh
         rm steam.sh
         rm -r linux32
-	echo "$(date) - OK: The file has been downloaded and extracted!" >> $LOGDIR/$LOGFILE-update.log
+	echo "$(date) - INFO: The file has been downloaded and extracted!" >> $LOGDIR/$LOGFILE-update.log
     else
 	echo "$(date) - ERROR: The file could not be downloaded!" >> $LOGDIR/$LOGFILE-update.log
     fi
