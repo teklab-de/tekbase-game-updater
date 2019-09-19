@@ -1,64 +1,60 @@
 #!/bin/bash
 
-# TekBase - Server Control Panel
-# Copyright 2005-2018 TekLab
+# TekBase - server control panel
+# Copyright since 2005 TekLab
 # Christian Frankenstein
-# Website: https://teklab.de
-# Email: service@teklab.de
+# Website: teklab.de
+#          teklab.net
 
 VAR_A=$1
 VAR_B=$2
 VAR_C=$3
 VAR_D=$4
+VAR_E=$5
 
-DATE=$(date +"%Y.%m.%d %H:%M:%S")
-LOGFILE=$(date +"%Y-%m-%d")
+LOGFILE=$(date +"%Y-%m")
 LOGDIR="logs"
-DATADIR=`pwd`
+DATADIR=$(pwd)
 
-if [ ! -d "$LOGDIR" ]; then
-	mkdir $LOGDIR
-	chmod 755 $LOGDIR    
-	echo "$DATE - The logs folder has just been created!" >> $LOGDIR/$LOGFILE-update.log
-	echo "$DATE - The logs folder has just been created!"
+if [ ! -d $LOGDIR ]; then
+    mkdir $LOGDIR
+    chmod 755 $LOGDIR    
+    echo "$(date) - The logs folder has just been created!" >> $LOGDIR/$LOGFILE-update.log
+    echo "$(date) - The logs folder has just been created!"
 fi
 
-if [ ! -f "$VERSION" ]; then
-	echo "0" > version.tek   
-	echo "$DATE - File version.tek has just been created!" >> $LOGDIR/$LOGFILE-update.log
-	echo "$DATE - File version.tek has just been created!"
+if [ ! -f version.tek ]; then
+    echo "0" > version.tek   
+    echo "$(date) - File version.tek has just been created!" >> $LOGDIR/$LOGFILE-update.log
+    echo "$(date) - File version.tek has just been created!"
 fi
-
-function getJSONData {
-	echo $1 | egrep -o "\"$2\": ?[^\}]*(\}|\")" | sed "s/\"$2\"://"
-}
-
-function getJSONVal {
-	echo $1 | egrep -o "\"$2\": ?\"[^\"]*" | sed "s/\"$2\"://" | tr -d '{}" '
-}
 
 if [ "$VAR_A" == "file" ]; then
-	wget --no-check-certificate $VAR_B/$VAR_C.tar
-	tar -xf $VAR_C.tar	
-	rm -rf $VAR_C.tar
+    wget $VAR_B/$VAR_C.tar
+    tar -xf $VAR_C.tar	
+    rm -rf $VAR_C.tar
 fi
 
 if [ "$VAR_A" == "steam" ]; then
-	wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
-	tar -xzf steamcmd_linux.tar.gz
-	./steamcmd.sh +login $VAR_B +force_install_dir ./$VAR_D +app_update $VAR_C validate +exit
-	rm -rf steamcmd_linux.tar.gz
-	rm -rf steamcmd.sh
-	rm -rf steam.sh
-	rm -rf linux32
+    wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
+    tar -xzf steamcmd_linux.tar.gz
+    if [ "$VAR_D" != "" ] && [ "$VAR_E" != "" ]; then
+	./steamcmd.sh +login "$VAR_D" "$VAR_E" +force_install_dir ./$VAR_C +app_update $VAR_B validate +exit
+    else
+        ./steamcmd.sh +login anonymous +force_install_dir ./$VAR_C +app_update $VAR_B validate +exit
+    fi
+    rm steamcmd_linux.tar.gz
+    rm steamcmd.sh
+    rm steam.sh
+    rm -r linux32
 fi
 
 if [ "$VAR_A" == "www" ]; then
-	if [ -d "games/$VAR_B" ]; then
-		$DATADIR/games/$VAR_B/updater.sh $DATADIR
-	fi
+    if [ -d "update_www/$VAR_B" ]; then
+        $DATADIR/update_www/$VAR_B/updater.sh $DATADIR
+    fi
 fi
-
-rm -rf updater.sh
+rm -r update_www
+rm updater.sh
     
 exit 0
