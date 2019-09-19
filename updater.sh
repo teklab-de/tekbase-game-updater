@@ -55,6 +55,7 @@ fi
 if [ "$VAR_A" == "www" ]; then
     if [ -d "update_www/$VAR_B" ]; then
         $DATADIR/update_www/$VAR_B/updater.sh $DATADIR
+	cd $DATADIR
     fi
 fi
 rm -r update_www
