@@ -1,5 +1,5 @@
 # TekBASE - Game Updater
-![TekBASE 8.X](https://img.shields.io/badge/TekBASE-8.X-green.svg) ![License GNU AGPLv3](https://img.shields.io/badge/License-GNU_AGPLv3-blue.svg) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3f6e095c84d94be0ae55bc4e1daa61bb)](https://www.codacy.com/manual/ch.frankenstein/tekbase-game-updater?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=teklab-de/tekbase-game-updater&amp;utm_campaign=Badge_Grade)
+![TekBASE 8.X](https://img.shields.io/badge/TekBASE-8.X-green.svg) ![License GNU AGPLv3](https://img.shields.io/badge/License-GNU_AGPLv3-blue.svg) [![CodeFactor](https://www.codefactor.io/repository/github/teklab-de/tekbase-game-updater/badge)](https://www.codefactor.io/repository/github/teklab-de/tekbase-game-updater)
 
 Universal update script for steam games, minecraft and more. TekBASE is a server management software for clans, communities and service providers with an online shop, billing system, and reminder system. More information at [TekLab.de](https://teklab.de)
 
