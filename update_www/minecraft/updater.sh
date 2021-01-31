@@ -11,17 +11,17 @@ VAR_A=$1
 LOGDATE=$(date +"%Y-%m-%d")
 
 function getJSONData {
-    echo $1 | egrep -o "\"$2\": ?[^\}]*(\}|\")" | sed "s/\"$2\"://"
+    echo $1 | grep -E -o "\"$2\": ?[^\}]*(\}|\")" | sed "s/\"$2\"://"
 }
 
 function getJSONVal {
-    echo $1 | egrep -o "\"$2\": ?\"[^\"]*" | sed "s/\"$2\"://" | tr -d '{}" '
+    echo $1 | grep -E -o "\"$2\": ?\"[^\"]*" | sed "s/\"$2\"://" | tr -d '{}" '
 }
 
 
 VERSIONS=$(curl -s https://launchermeta.mojang.com/mc/game/version_manifest.json)
 GETVER=$(getJSONVal "$(getJSONData "$VERSIONS" "latest")" "release")
-GETDATA=$(echo "$VERSIONS" | egrep -o "\"id\":\"$GETVER\"[^}]*")
+GETDATA=$(echo "$VERSIONS" | grep -E -o "\"id\":\"$GETVER\"[^}]*")
 GETURL=$(getJSONVal "$GETDATA" "url")
 GETJSON=$(curl -s $GETURL)
 SERVERFILE="minecraft_server_${GETVER}.jar"
