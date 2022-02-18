@@ -16,10 +16,15 @@ LOGFILE=$(date +"%Y-%m")
 LOGDIR="logs"
 DATADIR=$(pwd)
 
+
+
 if [ ! -d $LOGDIR ]; then
     mkdir $LOGDIR
     chmod 755 $LOGDIR  
-    echo "$(date) - INFO: The logs folder has just been created!" >> $LOGDIR/$LOGFILE-update.log
+    echo "$(date) - INFO: Gameserver update script started!" >> $LOGDIR/$LOGFILE-update.log
+    echo "$(date) - INFO: Folder logs has just been created!" >> $LOGDIR/$LOGFILE-update.log
+else
+    echo "$(date) - INFO: Gameserver update script started!" >> $LOGDIR/$LOGFILE-update.log
 fi
 
 if [ ! -f version.tek ]; then
@@ -33,15 +38,15 @@ if [ "$VAR_A" == "file" ]; then
     if [ -f $VAR_C.tar ]; then
         tar -xf $VAR_C.tar
         rm -r $VAR_C.tar
-	echo "$(date) - INFO: The file has been downloaded and extracted!" >> $LOGDIR/$LOGFILE-update.log
+	echo "$(date) - INFO: The file for fileupdate has been downloaded and extracted!" >> $LOGDIR/$LOGFILE-update.log
     else
-	echo "$(date) - ERROR: The file could not be downloaded!" >> $LOGDIR/$LOGFILE-update.log    	
+	echo "$(date) - ERROR: The file for fileupdate could not be downloaded!" >> $LOGDIR/$LOGFILE-update.log    	
     fi
 fi
 
 if [ "$VAR_A" == "steam" ]; then
     wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
-    if [ -f $VAR_C.tar ]; then
+    if [ -d $VAR_C ]; then
         tar -xzf steamcmd_linux.tar.gz
         chmod 777 steamcmd.sh
         chmod -R 777 linux32
@@ -53,10 +58,10 @@ if [ "$VAR_A" == "steam" ]; then
         rm steamcmd_linux.tar.gz
         rm steamcmd.sh
         rm steam.sh
-        rm -r linux32
-	echo "$(date) - INFO: The file has been downloaded and extracted!" >> $LOGDIR/$LOGFILE-update.log
+
+	echo "$(date) - INFO: The files for steam gameserver update has been downloaded and extracted!" >> $LOGDIR/$LOGFILE-update.log
     else
-	echo "$(date) - ERROR: The file could not be downloaded!" >> $LOGDIR/$LOGFILE-update.log
+	echo "$(date) - ERROR: The files for steam gameserver update could not be downloaded!" >> $LOGDIR/$LOGFILE-update.log
     fi
 fi
 
@@ -69,5 +74,9 @@ fi
 
 rm -r update_www
 rm updater.sh
+rm LICENSE
+rm README.md
+rm updater.tar
+echo "$(date) - INFO: Temporary files deleted and gameserver update script completed!" >> $LOGDIR/$LOGFILE-update.log
     
 exit 0

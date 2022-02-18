@@ -27,37 +27,37 @@ wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./u
 
 ### File - download and extract from your server:
 ```
-wget imageserver/updater.tar;tar -xf updater.tar;./updater.sh file "imageserver" "gamefile"
+wget imageserver/updater.tar;tar -xf updater.tar;./updater.sh file imageserver gamefile
 ```
 in example:
 ```
-wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh file "http://xxxxx.xxx" "css123"
+wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh file http://xxxxx.xxx css123
 ```
 or:
 ```
-wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh file "http://xxxxx.xxx/css/update" "version_123"
+wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh file http://xxxxx.xxx/css/update version_123
 ```
 
 ### Steam - update via steamcmd:
 ```
-wget imageserver/updater.tar;tar -xf updater.tar;./updater.sh steam "steamid" "gamefolder" "steamuser" "steampw"
+wget imageserver/updater.tar;tar -xf updater.tar;./updater.sh steam steamid gamefolder steamuser steampw
 ```
 in example:
 ```
-wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh steam "232330" "" "STEAMUSER" "STEAMPW"
+wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh steam 232330 STEAMUSER STEAMPW
 ```
 or:
 ```
-wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh steam "232330" "" "" ""
+wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh steam 232330
 ```
 
 ### WWW - download directly from the publisher website:
 ```
-wget imageserver/updater.tar;tar -xf updater.tar;./updater.sh www "gamefolder"
+wget imageserver/updater.tar;tar -xf updater.tar;./updater.sh www gamefolder
 ```
 in example:
 ```
-wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh www "minecraft"
+wget ftp://testuser:password@123.123.123.123/updater.tar;tar -xf updater.tar;./updater.sh www minecraft
 ```
 
 ## License
