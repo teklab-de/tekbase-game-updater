@@ -41,7 +41,7 @@ fi
 
 if [ "$VAR_A" == "steam" ]; then
     wget http://media.steampowered.com/client/steamcmd_linux.tar.gz
-    if [ -f $VAR_C.tar ]; then
+    if [ -f steamcmd_linux.tar.gz ]; then
         tar -xzf steamcmd_linux.tar.gz
         chmod 777 steamcmd.sh
         chmod -R 777 linux32
